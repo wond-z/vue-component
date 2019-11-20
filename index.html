@@ -63,24 +63,24 @@
                 <tr v-for="(item, index) in detail" v-show="item.show">
                     <td>{{item.materialName}}</td>
                     <td>
-                        <el-input v-model="item.materialBrand" @blur="inputBlur" :row-id="item.id" edit-id="edit0"></el-input>
+                        <el-input v-model="item.materialBrand" @blur="inputBlur" :row-id="item.id" edit-id="edit_materialBrand"></el-input>
                     </td>
                     <td>
-                        <el-input v-model="item.materialModel" @blur="inputBlur" :row-id="item.id" edit-id="edit1"></el-input>
+                        <el-input v-model="item.materialModel" @blur="inputBlur" :row-id="item.id" edit-id="edit_materialModel"></el-input>
                     </td>
                     <td>
-                        <el-input v-model="item.materialPrice" @blur="inputBlur" :row-id="item.id" edit-id="edit2"></el-input>
+                        <el-input v-model="item.materialPrice" @blur="inputBlur" :row-id="item.id" edit-id="edit_materialPrice"></el-input>
                     </td>
                     <td>{{item.materialChangeNum}}</td>
                     <td>
                         <el-switch v-model="item.addStatus" active-text="增加" inactive-text="减少" class="inline-block switchStyle"></el-switch>
-                        <el-input v-model="item.addValue" class="inline-block" style="width: 100px;" @blur="inputBlur" :row-id="item.id" edit-id="edit3"></el-input>
+                        <el-input v-model="item.addValue" class="inline-block" style="width: 100px;" @blur="inputBlur" :row-id="item.id" edit-id="edit_addValue"></el-input>
                     </td>
                     <td>
-                        <el-input v-model="item.materialUnit" @blur="inputBlur" :row-id="item.id" edit-id="edit4"></el-input>
+                        <el-input v-model="item.materialUnit" @blur="inputBlur" :row-id="item.id" edit-id="edit_materialUnit"></el-input>
                     </td>
                     <td>
-                        <el-select v-model="item.materialBrand" placeholder="请选择" @change="function(val){changeSelect(val, item.id)}" :row-id="item.id" edit-id="edit5">
+                        <el-select v-model="item.typeName" placeholder="请选择" @change="function(val){changeSelect(val, item.id)}" :row-id="item.id" edit-id="edit_typeName">
                             <el-option
                                 v-for="item in options"
                                 :key="item.value"
@@ -379,25 +379,51 @@ new Vue({
             }
             return result;
         },
+        // 对比数据，有修改返回true，无修改或空返回false
+        dataComparison(rowId, editId, value) {
+            // 原始数据
+            var rootData = this.rootData.data.changeDataList;
+            // 索引号
+            var index = rowId.substr(6);
+            // 键名
+            var key = editId.substr(5);
+
+            if (value) {
+                return rootData[index][key] === value ? true : false;
+            } else {
+                this.detail[index][key] = rootData[index][key];
+                return true;
+            }
+        },
+        // input框状态(失焦后触发)
         inputBlur(e) {
             console.log(e);
             var value = e.target.value;
-            console.log(e.target.attributes);
+            // console.log(e.target.attributes);
             var editId = e.target.attributes['edit-id'].nodeValue;
             var rowId = e.target.attributes['row-id'].nodeValue;
-            console.log(editId);
-            console.log(rowId);
-            var node = document.querySelector('input[row-id=' + rowId + '][edit-id=' + editId + ']');
-            console.log(node);
-            node.classList.add('is-warning');
+            // console.log(editId);
+            // console.log(rowId);
+            var status = this.dataComparison(rowId, editId, value);
+            if (!status) {
+                var node = document.querySelector('input[row-id=' + rowId + '][edit-id=' + editId + ']');
+                node.classList.add('is-warning');
+            }
+
+            // console.log(node);
+
         },
-        changeSelect(val, id) {
-            console.log(id);
-            console.log(val);
-            // var node = document.querySelector('div[row-id=' + id + '][edit-id=edit5]');
-            var node = document.querySelector('div[row-id=' + id + '][edit-id=' + 'edit5' + '] input');
-            console.log(node);
-            node.classList.add('is-warning');
+        /**
+         * changeSelect 下拉框状态（改变值后触发）
+         * @param  {string} value 当前值
+         * @param  {string} rowId 行号/ID
+         */
+        changeSelect(value, rowId) {
+            var status = this.dataComparison(rowId, 'edit_typeName', value);
+            if (!status) {
+                var node = document.querySelector('div[row-id=' + rowId + '][edit-id=edit_typeName] input');
+                node.classList.add('is-warning');
+            }
         },
         // 分页-切换页
         handleCurrentChange(val) {
@@ -424,6 +450,7 @@ new Vue({
                 }
             }
         },
+
         // 变更列表
         interfaceForMetrailDetail(param) {
             var self = this;
