@@ -7,46 +7,14 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <!-- <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js" charset="utf-8"></script> -->
-    <style media="screen">
-        .el-table td {
-            padding: 5px;
-        }
-        .inline-block {
-            display: inline-block;
-        }
-        .switchStyle .el-switch__label {
-            position: absolute;
-            top: 1px;
-            display: none;
-            color: #fff;
-        }
-        .switchStyle .el-switch__label span {
-            font-size: 12px;
-        }
-        .switchStyle .el-switch__label--left {
-            z-index: 9;
-            left: 21px;
-        }
-        .switchStyle .el-switch__label--right {
-            z-index: 9;
-            left: -5px;
-        }
-        .switchStyle .el-switch__label.is-active {
-            display: block;
-        }
-        .switchStyle.el-switch .el-switch__core,
-        .switchStyle.el-switch .el-switch__label {
-            width: 50px !important;
-        }
-        .is-warning {
-            border: 1px solid #E6A23C;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <div id="app">
+    <div id="materialChangeEdit">
         <div>{{ title }}</div>
-        <material-change-edit></material-change-edit>
+        <!-- props在 HTML 中是 kebab-case 的 -->
+        <material-change-edit ref="headerChild" :change-data-list="result.data.changeDataList" @changed-data="getChangedData"></material-change-edit>
+        <el-button type="primary" size="medium" @click="getData">获取数据</el-button>
     </div>
 </body>
 <!-- 组件的注册需在初始化vue应用之前 -->
@@ -54,12 +22,261 @@
 <script type="text/javascript">
 var apihost = '';
 new Vue({
-    el: '#app',
+    el: '#materialChangeEdit',
     data: {
-        title: '材料变更'
+        title: '材料变更',
+        result: {
+            "msg": "查询成功！",
+            "code": 200,
+            "data": {
+                "changeOrderName": "2",
+                "addDataList": [{
+                    "materialName": "2",
+                    "materialBrand": "2",
+                    "materialModel": "2",
+                    "materialPrice": "2",
+                    "materialChangeNum": "2",
+                    "materialUnit": "2",
+                    "typeName": "2"
+                }],
+                "changeDataList": [
+                    {
+                        "materialName": "钢筋50",
+                        "materialBrand": "宝钢材料",
+                        "materialModel": "100m*50mm",
+                        "materialPrice": "12.28",
+                        "materialChangeNum": "",
+                        "materialUnit": "根",
+                        "typeName": "1",
+                        "originalMaterialName": "钢筋50",
+                        "originalMaterialBrand": "宝钢材料",
+                        "originalMaterialModel": "100m*50mm",
+                        "originalMaterialPrice": "12.28",
+                        "originalMaterialChangeNum": "966",
+                        "originalPurchasenumCount": "236",
+                        "originalMaterialUnit": "根",
+                        "originalTypeName": "1",
+                        "materialIsChanged": "0"
+                    }, {
+                        "materialName": "钢筋51",
+                        "materialBrand": "宝钢材料",
+                        "materialModel": "100m*50mm",
+                        "materialPrice": "12",
+                        "materialChangeNum": "",
+                        "materialUnit": "根",
+                        "typeName": "1",
+                        "originalMaterialName": "钢筋51",
+                        "originalMaterialBrand": "宝钢材料",
+                        "originalMaterialModel": "100m*50mm",
+                        "originalMaterialPrice": "12",
+                        "originalMaterialChangeNum": "777",
+                        "originalPurchasenumCount": "333",
+                        "originalMaterialUnit": "根",
+                        "originalTypeName": "1",
+                        "materialIsChanged": "0"
+                    }, {
+                        "materialName": "钢筋52",
+                        "materialBrand": 0,
+                        "materialModel": "100m*50mm",
+                        "materialPrice": "12.28",
+                        "materialChangeNum": "",
+                        "materialUnit": "根",
+                        "typeName": "1",
+                        "originalMaterialName": "钢筋52",
+                        "originalMaterialBrand": 0,
+                        "originalMaterialModel": "100m*50mm",
+                        "originalMaterialPrice": "12.28",
+                        "originalMaterialChangeNum": "1200",
+                        "originalPurchasenumCount": "780",
+                        "originalMaterialUnit": "根",
+                        "originalTypeName": "1",
+                        "materialIsChanged": "0"
+                    }, {
+                        "materialName": "钢筋53",
+                        "materialBrand": "",
+                        "materialModel": "100m*50mm",
+                        "materialPrice": "12.28",
+                        "materialChangeNum": "",
+                        "materialUnit": "根",
+                        "typeName": "1",
+                        "originalMaterialName": "钢筋53",
+                        "originalMaterialBrand": "",
+                        "originalMaterialModel": "100m*50mm",
+                        "originalMaterialPrice": "12.28",
+                        "originalMaterialChangeNum": "0",
+                        "originalPurchasenumCount": "0",
+                        "originalMaterialUnit": "根",
+                        "originalTypeName": "1",
+                        "materialIsChanged": "0"
+                    }, {
+                        "materialName": "钢筋54",
+                        "materialBrand": "宝钢材料",
+                        "materialModel": "100m*50mm",
+                        "materialPrice": "12.28",
+                        "materialChangeNum": "",
+                        "materialUnit": "根",
+                        "typeName": "1",
+                        "originalMaterialName": "钢筋54",
+                        "originalMaterialBrand": "宝钢材料",
+                        "originalMaterialModel": "100m*50mm",
+                        "originalMaterialPrice": "12.28",
+                        "originalMaterialChangeNum": "1000",
+                        "originalPurchasenumCount": "0",
+                        "originalMaterialUnit": "根",
+                        "originalTypeName": "1",
+                        "materialIsChanged": "0"
+                    }, {
+                        "materialName": "铁块",
+                        "materialBrand": "东北钢材",
+                        "materialModel": "10cm*50cm*20cm",
+                        "materialPrice": "32.20",
+                        "materialChangeNum": "",
+                        "materialUnit": "块",
+                        "typeName": "0",
+                        "originalMaterialName": "铁块",
+                        "originalMaterialBrand": "宝钢材料",
+                        "originalMaterialModel": "10cm*50cm*20cm",
+                        "originalMaterialPrice": "32.20",
+                        "originalMaterialChangeNum": "1200",
+                        "originalPurchasenumCount": "780",
+                        "originalMaterialUnit": "块",
+                        "originalTypeName": "0",
+                        "materialIsChanged": "0"
+                    }, {
+                        "materialName": "铁皮",
+                        "materialBrand": "宝钢材料",
+                        "materialModel": "10m*500mm",
+                        "materialPrice": "12.28",
+                        "materialChangeNum": "",
+                        "materialUnit": "片",
+                        "typeName": "2",
+                        "originalMaterialName": "铁皮",
+                        "originalMaterialBrand": "宝钢材料",
+                        "originalMaterialModel": "10m*500mm",
+                        "originalMaterialPrice": "12.28",
+                        "originalMaterialChangeNum": "1200",
+                        "originalPurchasenumCount": "780",
+                        "originalMaterialUnit": "片",
+                        "originalTypeName": "2",
+                        "materialIsChanged": "0"
+                    }, {
+                        "materialName": "钢筋50",
+                        "materialBrand": "宝钢材料",
+                        "materialModel": "100m*50mm",
+                        "materialPrice": "12.28",
+                        "materialChangeNum": "",
+                        "materialUnit": "根",
+                        "typeName": "1",
+                        "originalMaterialName": "钢筋50",
+                        "originalMaterialBrand": "宝钢材料",
+                        "originalMaterialModel": "100m*50mm",
+                        "originalMaterialPrice": "12.28",
+                        "originalMaterialChangeNum": "1200",
+                        "originalPurchasenumCount": "780",
+                        "originalMaterialUnit": "根",
+                        "originalTypeName": "1",
+                        "materialIsChanged": "0"
+                    }, {
+                        "materialName": "钢筋50",
+                        "materialBrand": "宝钢材料",
+                        "materialModel": "100m*50mm",
+                        "materialPrice": "12.28",
+                        "materialChangeNum": "",
+                        "materialUnit": "根",
+                        "typeName": "1",
+                        "originalMaterialName": "钢筋50",
+                        "originalMaterialBrand": "宝钢材料",
+                        "originalMaterialModel": "100m*50mm",
+                        "originalMaterialPrice": "12.28",
+                        "originalMaterialChangeNum": "1200",
+                        "originalPurchasenumCount": "780",
+                        "originalMaterialUnit": "根",
+                        "originalTypeName": "1",
+                        "materialIsChanged": "0"
+                    }, {
+                        "materialName": "钢筋50",
+                        "materialBrand": "宝钢材料",
+                        "materialModel": "100m*50mm",
+                        "materialPrice": "12.28",
+                        "materialChangeNum": "",
+                        "materialUnit": "根",
+                        "typeName": "1",
+                        "originalMaterialName": "钢筋50",
+                        "originalMaterialBrand": "宝钢材料",
+                        "originalMaterialModel": "100m*50mm",
+                        "originalMaterialPrice": "12.28",
+                        "originalMaterialChangeNum": "1200",
+                        "originalPurchasenumCount": "780",
+                        "originalMaterialUnit": "根",
+                        "originalTypeName": "1",
+                        "materialIsChanged": "0"
+                    }, {
+                        "materialName": "钢筋50",
+                        "materialBrand": "宝钢材料",
+                        "materialModel": "100m*50mm",
+                        "materialPrice": "12.28",
+                        "materialChangeNum": "",
+                        "materialUnit": "根",
+                        "typeName": "1",
+                        "originalMaterialName": "钢筋50",
+                        "originalMaterialBrand": "宝钢材料",
+                        "originalMaterialModel": "100m*50mm",
+                        "originalMaterialPrice": "12.28",
+                        "originalMaterialChangeNum": "1200",
+                        "originalPurchasenumCount": "780",
+                        "originalMaterialUnit": "根",
+                        "originalTypeName": "1",
+                        "materialIsChanged": "0"
+                    }, {
+                        "materialName": "钢筋666",
+                        "materialBrand": "宝钢材料",
+                        "materialModel": "55m*502mm",
+                        "materialPrice": "12.28",
+                        "materialChangeNum": "",
+                        "materialUnit": "根",
+                        "typeName": "0",
+                        "originalMaterialName": "钢筋666",
+                        "originalMaterialBrand": "宝钢材料",
+                        "originalMaterialModel": "55m*502mm",
+                        "originalMaterialPrice": "16.66",
+                        "originalMaterialChangeNum": "1666",
+                        "originalPurchasenumCount": "666",
+                        "originalMaterialUnit": "根",
+                        "originalTypeName": "0",
+                        "materialIsChanged": "0"
+                    }
+                ],
+                "contactChangeInfo": [{
+                    "userName": "2",
+                    "changeStatus": "2",
+                    "changeContent": "2",
+                    "addDateTime": "2"
+                }],
+                "changeLogList": [{
+                    "userName": "2",
+                    "addDateTime": "2",
+                    "auditorPerson": "2",
+                    "auditorDateTime": "2",
+                    "auditorResult": "2"
+                }],
+                "unAuditorReason": "2"
+            }
+        },
+        changedData: [],
+        temp: ''
     },
     methods: {
-
+        getData() {
+            console.log('来自父页面的关爱：');
+            console.log(this.$refs.headerChild.detail);
+            // this.$emit('changed-data', this.detail);
+        },
+        getChangedData(data) {
+            // parent
+            console.log('已获取到子组件数据：');
+            console.log(data);
+            this.changedData = data;
+        },
     },
     mounted() {
 

@@ -1,0 +1,47 @@
+
+.inline-block {
+    display: inline-block;
+}
+
+.is-warning {
+    border: 1px solid #E6A23C;
+}
+
+.pagination-table {
+    text-align: right;
+    margin-top: 10px;
+}
+/* --------------材料变更关联--------------- */
+
+
+/* --------------材料变更编辑--------------- */
+#materialChangeEdit .el-table td {
+    padding: 5px;
+}
+
+/* switch开关自定义样式覆盖控件样式 */
+.switchStyle .el-switch__label {
+    position: absolute;
+    top: 1px;
+    /* top: 4px; */
+    display: none;
+    color: #fff;
+}
+.switchStyle .el-switch__label span {
+    font-size: 12px;
+}
+.switchStyle .el-switch__label--left {
+    z-index: 9;
+    left: 21px;
+}
+.switchStyle .el-switch__label--right {
+    z-index: 9;
+    left: -5px;
+}
+.switchStyle .el-switch__label.is-active {
+    display: block;
+}
+.switchStyle.el-switch .el-switch__core,
+.switchStyle.el-switch .el-switch__label {
+    width: 50px !important;
+}
