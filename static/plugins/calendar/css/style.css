@@ -1,0 +1,636 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-style: normal;
+}
+ul,
+li {
+  list-style: none;
+}
+body {
+  font-family: "PingFang SC", "Helvetica Neue", "Helvetica", "Microsoft Yahei",
+    "Arial", sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+h2 {
+  font-weight: normal;
+}
+
+body {
+  /* overflow: hidden; */
+  width: 100%;
+  background-size: cover;
+  background-color:none;
+}
+#calendar {
+  width: 1003px;
+  height: 1000px;
+  margin: 0 auto;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently*/
+  position: relative;
+}
+#calendar .header {
+  position: relative;
+  /* width: 742px; */
+  /* height: 37px; */
+  /* border-bottom: 1px solid #b4b2b3; */
+  background-color: #e7e5e7;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  z-index: 22;
+}
+#calendar .header ul {
+  position: absolute;
+  left: 58%;
+  top: 37px;
+  transform: translate(-50%, 0);
+  overflow: hidden;
+  border-radius: 3px;
+  font-size: 0;
+}
+.header ul li {
+  display: inline-block;
+  width: 61px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFangSC;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.85);
+  /* line-height: 32px; */
+  text-align: center;
+  background: rgba(245, 245, 245, 1);
+  box-sizing: border-box;
+  border: 1px solid rgba(204, 204, 204, 1);
+  border-radius: 8px 4px 4px 8px;
+  cursor: default;
+}
+.header ul li:first-child {
+  border-radius: 8px 4px 4px 8px;
+}
+.header ul li:last-child {
+  border-radius: 4px 8px 8px 4px;
+}
+#calendar .header ul li.cur {
+  color: #fff;
+  background: rgba(16, 142, 233, 1);
+  box-sizing: border-box;
+  /* border-radius:8px 4px 4px 8px; */
+  border: 1px solid rgba(204, 204, 204, 1);
+}
+#calendar .sidebar {
+  display: none;
+  float: left;
+  width: 167px;
+  height: 609px;
+  border-right: 1px solid #d4dad3;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+#calendar .sidebar .wrapper {
+  width: 100%;
+  padding: 12px 0;
+  border-bottom: 1px solid #c8d6c7;
+}
+#calendar .sidebar .title {
+  position: relative;
+  text-align: center;
+}
+#calendar .sidebar .btn {
+  padding: 0 10px;
+  position: absolute;
+  cursor: default;
+}
+#calendar .sidebar .btn-prev {
+  left: 8px;
+}
+#calendar .sidebar .btn-next {
+  right: 8px;
+}
+#calendar .sidebar .date {
+}
+#calendar .sidebar .week {
+  height: 20px;
+  padding-top: 10px;
+  line-height: 20px;
+  font-size: 0;
+  text-align: center;
+}
+#calendar .sidebar .week li {
+  display: inline-block;
+  font-size: 12px;
+  width: 22px;
+  height: 20px;
+  text-align: center;
+}
+#calendar .sidebar .day {
+  text-align: center;
+  font-size: 0;
+}
+#calendar .sidebar .day li {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin: 2px;
+  line-height: 18px;
+  font-size: 12px;
+  text-align: center;
+  color: #ccc;
+  cursor: default;
+}
+#calendar .sidebar .day li.cur-month {
+  color: red;
+}
+#calendar .sidebar .day li.cur-day {
+  color: #fff;
+  width: 15px;
+  height: 15px;
+  background-color: #169bd5;
+  border-radius: 50%;
+}
+#calendar .container {
+  padding: 30px;
+  position: relative;
+  /* float: right; */
+  width: 620px;
+  /* height: 784px; */
+  background-color: #fff;
+}
+#calendar .container .render {
+  display: none;
+}
+#calendar .container .render-show {
+  display: block;
+}
+#renderMonth {
+  padding-top: 5px;
+}
+#renderMonth .title {
+  padding-left: 16px;
+  line-height: 42px;
+  font-size: 24px;
+  padding-bottom: 10px;
+  /* background-color: red; */
+}
+#renderMonth .week {
+  height: 24px;
+  line-height: 24px;
+  border-bottom: 1px solid #c8c6cc;
+  font-size: 0;
+}
+#renderMonth .week li {
+  position: relative;
+  right: 0px;
+  display: inline-block;
+  width: 85px;
+  text-align: center;
+  height: 20px;
+  font-size: 16px;
+  font-family: PingFangSC-Regular, PingFangSC;
+  font-weight: 400;
+  color: rgba(102, 102, 102, 1);
+  line-height: 20px;
+  margin-right: 2px;
+}
+#renderMonth .week .week_weekend {
+  color: rgba(255, 104, 112, 1);
+}
+#renderMonth .day {
+  font-size: 0;
+}
+#renderMonth .day li {
+  display: inline-block;
+  width: 85px;
+  height: 95px;
+  padding: 3px;
+  /* border-right: 1px solid #e6e5e6; */
+  margin-right: 2px;
+  margin-bottom: 2px;
+  /* border-bottom: 1px solid #e6e5e6; */
+  box-sizing: border-box;
+  font-size: 12px;
+  vertical-align: top;
+  color: #ccc;
+  background: rgba(250, 250, 250, 1);
+}
+#renderMonth .day li.cur-month {
+  color: #333;
+}
+#renderMonth .day li.cur-day {
+  color: #333;
+}
+#renderMonth .day li.weekend {
+  background-color: #f4f6f7;
+}
+#renderMonth .day li p {
+  margin-bottom: 2px;
+}
+#renderMonth .day li .info {
+  /* height: 20px; */
+}
+#renderMonth .day li .lunar {
+  text-align: center;
+  width: 100%;
+  height: 12px;
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFangSC;
+  font-weight: 400;
+  color: rgba(153, 153, 153, 1);
+  line-height: 12px;
+  margin: 2px 0 3px 0;
+}
+#renderMonth .day li .first-lunarday {
+  position: relative;
+  /* left: -5px; */
+  /* border-bottom: 1px solid #ff6d6d; */
+}
+#renderMonth .day li .first-lunarJanuary {
+  position: relative;
+  left: -5px;
+  /* border-bottom: 2px solid #ff6d6d; */
+}
+#renderMonth .day li .date {
+  text-align: center;
+  width: 79px;
+  height: 16px;
+  font-size: 16px;
+  font-family: PingFangSC-Regular, PingFangSC;
+  font-weight: 400;
+  /* color:rgba(153,153,153,1); */
+  line-height: 16px;
+}
+#renderMonth .day li.cur-day .date {
+}
+#renderMonth .day li.cur-day .date em {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  margin-right: 2px;
+  text-align: center;
+  color: #fff;
+  background-color: #ff6d6d;
+  border-radius: 50%;
+}
+#renderMonth .day li .festival {
+  /* display: none; */
+  padding-left: 10px;
+  color: #333;
+  /* background: rgba(47, 194, 91, 1); */
+  cursor: default;
+  width: 69px;
+  /* height: 13px; */
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFangSC;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  line-height: 13px;
+
+  overflow: hidden;/*超出部分隐藏*/
+    text-overflow:ellipsis;/* 超出部分显示省略号 */
+}
+#renderMonth .day li .festival:nth-child(5) {
+  background: rgba(250, 115, 25, 1);
+}
+#renderMonth .day li .festival:nth-child(6) {
+  background: rgba(16, 142, 233, 1);
+}
+#renderMonth .day li .festival.show {
+  display: block;
+}
+#renderMonth .day li .term {
+  display: none;
+  color: #333;
+  height: 16px;
+  line-height: 16px;
+  padding-left: 10px;
+  background-color: #a7d1ed;
+  cursor: default;
+}
+#renderMonth .day li .term.show {
+  display: none;
+  width: 620px;
+}
+#renderFullYear {
+  padding-top: 5px;
+  /* background-color: red; */
+  padding: 0 20px 100px;
+}
+#renderFullYear > .title {
+  width: 617px;
+  height: 42px;
+  padding: 0 0 10px 16px;
+}
+#renderFullYear > .title h2 {
+  display: inline-block;
+  margin-top: 2px;
+  width: 116px;
+  height: 33px;
+  font-size: 24px;
+  font-family: PingFangSC-Regular, PingFangSC;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 33px;
+}
+#renderFullYear > .title p {
+  float: right;
+  margin-top: 10px;
+  margin-right: 15px;
+}
+#renderFullYear > .title .lunar-year {
+}
+#renderFullYear > .title .lunar-year i {
+  display: inline-block;
+  margin: 9px 6px 0 0;
+  width: 16px;
+  height: 3px;
+  background-color: #ff6d6d;
+  vertical-align: top;
+}
+#renderFullYear > .title .info {
+}
+#renderFullYear > .title .info i {
+  display: inline-block;
+  width: 14px;
+  height: 1px;
+  margin-top: -3px;
+  margin-right: 5px;
+  background-color: #ff6d6d;
+  vertical-align: middle;
+}
+#renderFullYear .month {
+  font-size: 0;
+}
+#renderFullYear .month .item {
+  display: inline-block;
+  width: 25%;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+#renderFullYear .month .title {
+  padding-left: 8px;
+
+  /* width:38px; */
+  height: 28px;
+  font-size: 22px;
+  font-family: PingFangSC-Medium, PingFangSC;
+  font-weight: 500;
+  color: rgba(51, 51, 51, 1);
+  line-height: 28px;
+  margin-bottom: 5px;
+}
+#renderFullYear .month .week {
+  font-size: 0;
+  text-align: center;
+  width: 136px;
+}
+#renderFullYear .month .week li {
+  display: inline-block;
+  width: 19px;
+  height: 12px;
+  line-height: 12px;
+  font-size: 12px;
+  color: #ccc;
+  margin-bottom: 10px;
+}
+#renderFullYear .month .day {
+  text-align: center;
+  font-size: 0;
+  width: 140px;
+}
+#renderFullYear .month .day li {
+  display: inline-block;
+  width: 15px;
+  height: 12px;
+  line-height: 12px;
+  margin-right: 4px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #ccc;
+  font-size: 10px;
+  cursor: default;
+}
+#renderFullYear .month .day li.lunar-first {
+  border-bottom: 1px solid #ff6d6d;
+}
+#renderFullYear .month .day li.lunar-january {
+  border-bottom: 2px solid #ff6d6d;
+}
+#renderFullYear .month .day li.cur-month {
+  color: #333;
+}
+#renderFullYear .month .day li.cur-day {
+  color: #fff;
+  width: 15px;
+  height: 15px;
+  line-height: 15px;
+  background-color: #169bd5;
+  border-radius: 50%;
+}
+#control {
+  position: absolute;
+  left: 35%;
+  top: 37px;
+  font-size: 0;
+}
+#control input {
+  display: inline-block;
+  height: 24px;
+  text-align: center;
+  border: 1px solid rgba(217, 217, 217, 1);
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333;
+  background: rgba(255, 255, 255, 1);
+  vertical-align: top;
+  outline: none;
+}
+#control .btn {
+  width: 32px;
+}
+#control .control_box {
+  position: relative;
+}
+#control .btn-prev {
+  position: absolute;
+  top: 0;
+  left: -15px;
+}
+#control .btn-next {
+  position: absolute;
+  top: 0;
+  right: -15px;
+}
+#control .today {
+  width: 86px;
+}
+
+/* 弹出框 */
+#popup {
+  display: none;
+  position: absolute;
+  left: 200px;
+  top: 100px;
+  width: 260px;
+  height: 104px;
+  background-color: #f4f6f7;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  border: 1px solid #efefef;
+}
+#popup.popup-right {
+}
+#popup .title {
+  height: 43px;
+  padding: 0 15px;
+  line-height: 43px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #d6d6d6;
+}
+#popup .arrow {
+  display: none;
+  position: absolute;
+  top: 36px;
+  width: 0;
+  height: 0;
+  border-width: 14px;
+  border-style: solid;
+}
+#popup .arrow:after {
+  content: "";
+  position: absolute;
+  top: -14px;
+  width: 0;
+  height: 0;
+  border-width: 14px;
+  border-style: dashed;
+}
+#popup .arrow-left {
+  left: -29px;
+  border-color: transparent #d6d6d6 transparent transparent;
+}
+#popup.popup-left .arrow-left {
+  display: block;
+}
+#popup .arrow-left:after {
+  left: -13px;
+  border-color: transparent #f4f6f7 transparent transparent;
+}
+#popup .arrow-right {
+  right: -29px;
+  border-color: transparent transparent transparent #d6d6d6;
+}
+#popup.popup-right .arrow-right {
+  display: block;
+}
+#popup .arrow-right:after {
+  right: -13px;
+  border-color: transparent transparent transparent #f4f6f7;
+}
+#popup .date,
+#popup .lunar {
+  padding: 0 15px;
+  line-height: 20px;
+}
+.tip_box {
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  width: 270px;
+  height: 273px;
+  padding:0 12px;
+  box-sizing: border-box;
+  transform: translate(-100%, 90%);
+  background-color: #fff;
+  box-shadow: 5px 5px 3px #888888;
+}
+.add_contents {
+  padding: 11px 0px 0;
+  
+}
+.content_input {
+  box-sizing: border-box;
+  padding:6px 10px;
+  resize: none;
+  width: 246px;
+  height: 80px;
+  border-radius: 2px;
+  border: 1px solid rgba(151, 151, 151, 1);
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFangSC;
+  font-weight: 400;
+  color: rgba(153, 153, 153, 1);
+  line-height: 20px;
+}
+.seclect {
+  /* padding: 10px 10px; */
+  border-bottom: 1px solid #DDDDDD;
+  width:246px;
+height:44px;
+line-height: 44px;
+/* box-shadow:0px -1px 0px 0px rgba(204,204,204,1); */
+}
+.bottom {
+  position: relative;
+
+}
+.bottom_btn {
+  /* background-color: red; */
+  
+  position: absolute;
+  right: 0;
+  bottom: -35px;
+
+
+}
+.confrim_btn{
+  width:60px;
+  height:28px;
+  margin-right: 16px;
+  background:rgba(16,142,233,1);
+line-height: 28px;
+color: #fff;
+  border-radius:4px;
+  border:1px solid rgba(217,217,217,1);
+}
+.cancle_btn{
+width:60px;
+height:28px;
+background:rgba(250,250,250,1);
+border-radius:4px;
+line-height: 28px;
+border:1px solid rgba(217,217,217,1);
+color: #333333;
+}
+.hidden {
+  display: none;
+}
+.cur-date {
+  width: 15px !important;
+  height: 15px !important;
+  line-height: 15px !important;
+  background-color: #ff6d6d;
+  border-radius: 50%;
+}
+.active {
+  background-color: skyblue !important ;
+}
+#renderMonth .title {
+  /* background-color: blue; */
+  /* width:116px; */
+  height: 26px;
+  font-size: 24px;
+  font-family: PingFangSC-Regular, PingFangSC;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 26px;
+}
+.cur-month {
+  color: red;
+}

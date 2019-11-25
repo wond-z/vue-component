@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>审核</title>
+    <link rel="stylesheet" href="./static/plugins/element-ui/index.css">
+    <script src="./static/plugins/vue/vue.js"></script>
+    <script src="./static/plugins/element-ui/index.js"></script>
+    <!-- <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js" charset="utf-8"></script> -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div id="materialChangeReview">
+        <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item>材料管理</el-breadcrumb-item>
+            <el-breadcrumb-item>材料变更</el-breadcrumb-item>
+            <el-breadcrumb-item>申请材料变更</el-breadcrumb-item>
+        </el-breadcrumb> -->
+
+        <div class="pull-right">
+            <span class="listStatus passed">已通过</span>
+        </div>
+        <div>
+            <h3 class="sectionTitle">变更单名称</h3>
+            <p class="must pd-left-15">变更单名称：变更单名称1</p>
+        </div>
+        <div>
+            <h3 class="sectionTitle">材料变更</h3>
+        </div>
+        <div>
+            <h3 class="sectionTitle">变更说明</h3>
+            <p class="custom-grid">
+                <label class="custion-grid-label text-right">变更说明：</label>
+                <label class="custom-grid-info">变更说明变更说明变更说明变更说明变更说明变更说明变更说明变更说明变更说明变更说明变更说明变更说明变更
+                    说明变更说明变更说明变更说明变更说明变更说明变更说明变更说明变更说明变更说明变更说明变更说明变更说明变更说明变更说明变更说明</label>
+            </p>
+        </div>
+        <div class="">
+            <h3 class="sectionTitle">审核操作</h3>
+            <p class="custom-grid">
+                <label class="custion-grid-label text-right">审核结果：</label>
+                <label class="custom-grid-info">
+                    <el-radio v-model="reviewRadio" label="0">通过</el-radio>
+                    <el-radio v-model="reviewRadio" label="1">未通过</el-radio>
+                </label>
+            </p>
+            <p class="custom-grid">
+                <label class="custion-grid-label text-right" :class="{ 'must': isMust }">说明：</label>
+                <label class="custom-grid-info">
+                    <el-input
+                            type="textarea"
+                            autosize
+                            :autosize="{ minRows: 3, maxRows: 5}"
+                            :maxlength="inputMaxlength"
+                            placeholder="请输入内容"
+                            v-model="textarea">
+                    </el-input>
+                </label>
+            </p>
+        </div>
+        <div class="text-center">
+            <el-button size="" @click="backToList">返回</el-button>
+            <el-button type="primary" size="" @click="submitData">提交</el-button>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    var apihost = '';
+    new Vue({
+        el: '#materialChangeReview',
+        data: {
+            reviewRadio: '0',
+            textarea: '',
+            inputMaxlength: 255
+        },
+        computed: {
+            isMust: function () {
+                if (this.reviewRadio === '1') return true;
+                return false;
+            }
+        },
+        methods: {
+            backToList() {
+                backMaterialChangeListPage(true);
+            },
+            submitData() {
+                this.$message('提交数据');
+            }
+        },
+        mounted() {
+        }
+    });
+</script>
+</html>

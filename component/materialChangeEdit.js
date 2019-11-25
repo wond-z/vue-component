@@ -168,7 +168,24 @@ Vue.component('material-change-edit', {
                 }
             }
         },
-
+        // 解析返回最终格式数据
+        resultData() {
+            var resultData = [];
+            this.result.forEach(function (item) {
+                var obj = {
+                    materialOID: item.materialOID || '',
+                    materialName: item.materialName,
+                    materialBrand: item.materialBrand,
+                    materialModel: item.materialModel,
+                    materialPrice: item.materialPrice,
+                    materialChangeNum: item.materialChangeNum,
+                    materialUnit: item.materialUnit,
+                    typeName: item.typeName
+                };
+                resultData.push(obj);
+            });
+            return resultData;
+        },
         // 变更列表
         interfaceForMetrailDetail(param) {
             var self = this;

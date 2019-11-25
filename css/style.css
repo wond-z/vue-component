@@ -1,3 +1,31 @@
+p {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: normal;
+}
+
+.pd-left-15 {
+    padding-left: 15px;
+}
+
+.mg-top-15 {
+    margin-top: 15px;
+}
+
+.mg-top-10 {
+    margin-top: 10px;
+}
+
+.mg-bottom-10 {
+    margin-bottom: 10px;
+}
+
+.text-right {
+    text-align: right;
+}
 
 .inline-block {
     display: inline-block;
@@ -10,6 +38,50 @@
 .pagination-table {
     text-align: right;
     margin-top: 10px;
+}
+
+h3.sectionTitle {
+    margin: 20px auto 15px;
+    padding-left: 10px;
+    border-left: 5px solid #ccc;
+    font-size: 16px;
+    font-weight: 600;
+
+}
+
+.must::before {
+    content: ' *';
+    color: red;
+    margin-right: 3px;
+}
+
+.listStatus {
+    display: inline-block;
+    height: 42px;
+    padding: 0 26px;
+    line-height: 40px;
+    font-size: 16px;
+    color: #409EFF;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 20px;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+
+.listStatus.passed {
+    color: #FFF;
+    background: #67C23A;
+}
+
+.listStatus.failed {
+    color: #FFF;
+    background: #F56C6C;
+}
+
+.listStatus.standby {
+    color: #FFF;
+    background: #E6A23C;
 }
 /* --------------材料变更关联--------------- */
 
@@ -44,4 +116,17 @@
 .switchStyle.el-switch .el-switch__core,
 .switchStyle.el-switch .el-switch__label {
     width: 50px !important;
+}
+
+/* --------------- 材料变更审核 ----------------- */
+
+.custom-grid .custion-grid-label {
+    display: inline-block;
+    vertical-align: top;
+    width: 150px;
+}
+
+.custom-grid .custom-grid-info {
+    display: inline-block;
+    width: calc(100% - 155px);
 }

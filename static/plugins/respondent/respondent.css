@@ -1,0 +1,68 @@
+    .PersonBtnGroup {
+        display: none;
+    }
+    .PersonBtnGroup .toogleHide {
+        display: none;
+    }
+    .PersonBtnGroup button.layui-btn{
+        margin-left: 0;
+    }
+    .reaptShowText {
+        width: 140px;
+    }
+    .reaptShowText .layui-colla-icon {
+        display: none;
+    }
+    .reaptShowText div.layui-colla-title {
+        height: 36px;
+        line-height: 36px;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+    }
+    .reaptShowText .layui-colla-title {
+        padding-left:5px;
+    }
+
+    .reaptShowText .imShow {
+        display: block !important;
+    }
+
+    .reaptShowText .imHide {
+        display: none !important;
+    }
+
+    #tree li {
+        line-height: 45px;
+    }
+    .ztree ul span.button.ico_docu {
+        background-color: #D5D5D5 !important;
+        display: inline-block;
+        height:40px;
+        width: 40px;
+        margin-right: 5px;
+        border-radius: 50%;
+    }
+    #tree li span.button.ico_close,#tree li span.button.ico_open,#tree>li>a>span:nth-child(1){
+        display: none;
+    }
+    .layui-collapse div.textSpan:nth-child(1){
+        text-align: center;
+    }
+    .layui-collapse {
+        border:none;
+    }
+    .layui-collapse div.textSpan {
+        border:1px solid rgb(230, 230, 230);
+    }
+    .textSpan>span,.comment-content span{
+        color:#535353!important;
+        background: none !important;
+    }
+    .ztree {
+        margin-top:45px;
+    }
+    .ztree li a {
+        cursor:auto;
+        pointer-events: none;
+    }

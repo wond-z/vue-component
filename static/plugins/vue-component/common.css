@@ -1,0 +1,39 @@
+.gray{font-size: 12px;color: #999999}
+.el-upload__input{display: none !important;line-height: 0 !important;}
+.el-message--error{z-index: 3147483647!important;position: fixed}
+.bimComm{margin-bottom: 10px;}
+/*查看视频功能css*/
+.videoBox {
+    width: 170px;
+    height: 175px;
+    position: relative;
+    display: inline-block;
+    margin-right: 7px;
+    margin-bottom: 7px;
+}
+
+.videoBox .mask {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, .3);
+}
+
+.videoBox i {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 35px;
+    width: 35px;
+    height: 35px;
+    margin: auto;
+    color: white
+}
+
+.lookVideo video {
+    height: 563px
+}
