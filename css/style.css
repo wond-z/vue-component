@@ -35,6 +35,22 @@ label {
     border: 1px solid #E6A23C;
 }
 
+.warning {
+    color: #E6A23C;
+}
+
+.danger {
+    color: red;
+}
+
+.success {
+    color: #67C23A;
+}
+
+.primary {
+    color: #409EFF;
+}
+
 .pagination-table {
     text-align: right;
     margin-top: 10px;
@@ -129,4 +145,8 @@ h3.sectionTitle {
 .custom-grid .custom-grid-info {
     display: inline-block;
     width: calc(100% - 155px);
+}
+
+.el-table__expanded-cell[class*=cell] {
+    padding: 0px 0 0 49px;
 }

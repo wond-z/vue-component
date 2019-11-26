@@ -9,10 +9,10 @@ Vue.component('material-change-edit', {
             edited: [],
             options: [
                 {
-                    value: '0',
+                    value: '钢筋',
                     label: '钢筋'
                 }, {
-                    value: '1',
+                    value: '水泥',
                     label: '水泥'
                 }, {
                     value: '2',
@@ -174,13 +174,13 @@ Vue.component('material-change-edit', {
             this.result.forEach(function (item) {
                 var obj = {
                     materialOID: item.materialOID || '',
-                    materialName: item.materialName,
-                    materialBrand: item.materialBrand,
-                    materialModel: item.materialModel,
+                    materialName: item.materialname,
+                    materialBrand: item.materialbrand,
+                    materialModel: item.materialmodel,
                     materialPrice: item.materialPrice,
                     materialChangeNum: item.materialChangeNum,
-                    materialUnit: item.materialUnit,
-                    typeName: item.typeName
+                    materialUnit: item.unit,
+                    typeName: item.typename
                 };
                 resultData.push(obj);
             });
@@ -227,12 +227,12 @@ Vue.component('material-change-edit', {
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in detail" v-show="item.show">
-                        <td>{{item.materialName}}</td>
+                        <td>{{item.materialname}}</td>
                         <td>
-                            <el-input v-model="item.materialBrand" @blur="inputBlur" :maxlength="inputMaxlength" :row-id="item.id" edit-id="edit_materialBrand"></el-input>
+                            <el-input v-model="item.materialbrand" @blur="inputBlur" :maxlength="inputMaxlength" :row-id="item.id" edit-id="edit_materialBrand"></el-input>
                         </td>
                         <td>
-                            <el-input v-model="item.materialModel" @blur="inputBlur" :maxlength="inputMaxlength" :row-id="item.id" edit-id="edit_materialModel"></el-input>
+                            <el-input v-model="item.materialmodel" @blur="inputBlur" :maxlength="inputMaxlength" :row-id="item.id" edit-id="edit_materialModel"></el-input>
                         </td>
                         <td>
                             <el-input-number
@@ -244,7 +244,7 @@ Vue.component('material-change-edit', {
                                 edit-id="edit_materialPrice">
                             </el-input-number>
                         </td>
-                        <td>{{ item.originalMaterialChangeNum }} / {{ item.originalPurchasenumCount }}</td>
+                        <td>{{ item.materialnum }} / {{ item.purchasenumCount }}</td>
                         <td>
                             <el-switch v-model="item.addStatus" active-text="增加" inactive-text="减少" @change="function(val){switchChange(item.id)}" class="inline-block switchStyle"></el-switch>
                             <el-input-number
@@ -259,10 +259,10 @@ Vue.component('material-change-edit', {
                             </el-input-number>
                         </td>
                         <td>
-                            <el-input v-model="item.materialUnit" @blur="inputBlur" :row-id="item.id" edit-id="edit_materialUnit"></el-input>
+                            <el-input v-model="item.unit" @blur="inputBlur" :row-id="item.id" edit-id="edit_materialUnit"></el-input>
                         </td>
                         <td>
-                            <el-select v-model="item.typeName" placeholder="请选择" @change="function(val){changeSelect(val, item.id, 'edit_typeName')}" :row-id="item.id" edit-id="edit_typeName">
+                            <el-select v-model="item.typename" placeholder="请选择" @change="function(val){changeSelect(val, item.id, 'edit_typeName')}" :row-id="item.id" edit-id="edit_typeName">
                                 <el-option
                                     v-for="item in options"
                                     :key="item.value"
