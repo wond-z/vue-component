@@ -24,6 +24,8 @@ Vue.component('material-change-edit', {
             tableTotal: 10,    // 总条数
             tablePage: 10,     // 每页条数
             pageNO: 1,         // 页码
+            searchInput: '',
+            searchResult: []
         }
     },
     methods: {
@@ -156,22 +158,65 @@ Vue.component('material-change-edit', {
             this.dataShow();
             // this.searchByPage();
         },
-        // 自定义分页显示处理
+        // 自定义分页显示处理；搜索分页处理
+        // 搜索分页原理：
+        // 1.找出detail中包含搜索内容的行，存储行索引（searchResult)
+        // 2.搜索结果总条数传递给tableTotal，生成分页
+        // 3.在searchResult中截取当前页面需要显示数据数量的片段showList
+        // 4.遍历showList，将detail中对应行数据show属性设置为true
         dataShow() {
+            var self = this;
             var data = this.detail;
             var start = (this.pageNO - 1) * this.tablePage;
             var end = start + this.tablePage;
-            for (var i = 0; i < data.length; i++) {
-                this.detail[i].show = false;
-                if ((i > start || i === start) && i < end) {
-                    this.detail[i].show = true;
+            if (this.searchInput) {
+                // 分页总数
+                this.tableTotal = this.searchResult.length;
+                var showList = this.searchResult.slice(start, end);
+                // 先将所有数据隐藏
+                self.detail.forEach(function (item, index) {
+                    self.detail[index].show = false;
+                });
+                // 显示搜索结果片段
+                for (var i = 0; i < showList.length; i++) {
+                    self.detail[showList[i]].show = true;
+                }
+            } else {
+                for (var i = 0; i < data.length; i++) {
+                    self.detail[i].show = false;
+                    if ((i > start || i === start) && i < end) {
+                        self.detail[i].show = true;
+                    }
                 }
             }
+        },
+        // 搜索
+        searchData() {
+            var self = this;
+            var value = this.searchInput;
+            if (value) {
+                this.searchResult = [];
+                this.detail.forEach(function (item, index) {
+                    if (item.materialname.indexOf(value) > -1
+                    || item.materialbrand.indexOf(value) > -1
+                    || item.materialmodel.indexOf(value) > -1
+                    // || item.materialPrice.indexOf(value) > -1
+                    // || item.materialChangeNum.indexOf(value) > -1
+                    || item.unit.indexOf(value) > -1
+                    || item.typename.indexOf(value) > -1) {
+                        console.log(self.searchResult);
+                        self.searchResult.push(index);
+                    }
+                });
+            } else {
+                this.searchResult = [];
+            }
+            this.dataShow();
         },
         // 解析返回最终格式数据
         resultData() {
             var resultData = [];
-            this.result.forEach(function (item) {
+            this.detail.forEach(function (item) {
                 var obj = {
                     materialOID: item.materialOID || '',
                     materialName: item.materialname,
@@ -210,8 +255,17 @@ Vue.component('material-change-edit', {
         console.log(this.detail);
         this.tableTotal = this.detail.length;
     },
+    watch: {
+        searchInput(nv, ov) {
+            console.log(nv);
+            console.log(ov);
+            this.searchInput = nv.trim();
+            this.searchData();
+        }
+    },
     template: `
         <div>
+            搜索：<el-input placeholder="请输入内容" prefix-icon="el-icon-search" v-model="searchInput" class="searchInput"></el-input>
             <table cellspacing="0" cellpadding="0" border="0" class="el-table" style="width: 100%;">
                 <thead class="has-gutter">
                     <tr>

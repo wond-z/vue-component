@@ -134,6 +134,10 @@ h3.sectionTitle {
     width: 50px !important;
 }
 
+.searchInput {
+    width: 250px;
+}
+
 /* --------------- 材料变更审核 ----------------- */
 
 .custom-grid .custion-grid-label {
@@ -149,4 +153,8 @@ h3.sectionTitle {
 
 .el-table__expanded-cell[class*=cell] {
     padding: 0px 0 0 49px;
+}
+
+.table-detail-row td {
+    border-bottom: none;
 }

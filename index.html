@@ -41,11 +41,16 @@
         .is-warning {
             border: 1px solid #E6A23C;
         }
+
+        .searchInput {
+            width: 250px;
+        }
     </style>
 </head>
 <body>
     <div id="app">
         <div>{{ title }}</div>
+        <el-input placeholder="请输入内容" prefix-icon="el-icon-search" v-model="search" class="searchInput"></el-input>
         <table cellspacing="0" cellpadding="0" border="0" class="el-table" style="width: 100%;">
             <thead class="has-gutter">
                 <tr>
@@ -354,6 +359,7 @@ new Vue({
         tableTotal: 10,    // 总条数
         tablePage: 10,     // 每页条数
         pageNO: 1,         // 页码
+        search: ''
     },
     methods: {
         getData() {
