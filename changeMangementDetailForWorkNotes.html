@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>index</title>
+    <link rel="stylesheet" href="./static/plugins/element-ui/index.css">
+    <script src="./static/plugins/vue/vue.js"></script>
+    <script src="./static/plugins/element-ui/index.js"></script>
+    <!-- <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js" charset="utf-8"></script> -->
+    <style media="screen">
+        .el-table td {
+            padding: 5px;
+        }
+        .inline-block {
+            display: inline-block;
+        }
+        .switchStyle .el-switch__label {
+            position: absolute;
+            top: 1px;
+            display: none;
+            color: #fff;
+        }
+        .switchStyle .el-switch__label span {
+            font-size: 12px;
+        }
+        .switchStyle .el-switch__label--left {
+            z-index: 9;
+            left: 21px;
+        }
+        .switchStyle .el-switch__label--right {
+            z-index: 9;
+            left: -5px;
+        }
+        .switchStyle .el-switch__label.is-active {
+            display: block;
+        }
+        .switchStyle.el-switch .el-switch__core,
+        .switchStyle.el-switch .el-switch__label {
+            width: 50px !important;
+        }
+        .is-warning {
+            border: 1px solid #E6A23C;
+        }
+
+        .searchInput {
+            width: 250px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div>{{ title }}</div>
+        <el-input placeholder="请输入内容" prefix-icon="el-icon-search" v-model="search" class="searchInput"></el-input>
+        <table cellspacing="0" cellpadding="0" border="0" class="el-table" style="width: 100%;">
+            <thead class="has-gutter">
+                <tr>
+                    <th colspan="1" rowspan="1" class="is-leaf" width="100px"><div class="cell">材料名称</div></th>
+                    <th colspan="1" rowspan="1" class="is-leaf"><div class="cell">材料品牌</div></th>
+                    <th colspan="1" rowspan="1" class="is-leaf"><div class="cell">规格型号</div></th>
+                    <th colspan="1" rowspan="1" class="is-leaf"><div class="cell">材料单价</div></th>
+                    <th colspan="1" rowspan="1" class="is-leaf" width="180px"><div class="cell">材料所需总量/已采购</div></th>
+                    <th colspan="1" rowspan="1" class="is-leaf" width="180px"><div class="cell">材料所需总量变更</div></th>
+                    <th colspan="1" rowspan="1" class="is-leaf"><div class="cell">材料单位</div></th>
+                    <th colspan="1" rowspan="1" class="is-leaf"><div class="cell">材料分类</div></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, index) in detail" v-show="item.show">
+                    <td>{{item.materialName}}</td>
+                    <td>
+                        <el-input v-model="item.materialBrand" @blur="inputBlur" :row-id="item.id" edit-id="edit_materialBrand"></el-input>
+                    </td>
+                    <td>
+                        <el-input v-model="item.materialModel" @blur="inputBlur" :row-id="item.id" edit-id="edit_materialModel"></el-input>
+                    </td>
+                    <td>
+                        <el-input v-model="item.materialPrice" @blur="inputBlur" :row-id="item.id" edit-id="edit_materialPrice"></el-input>
+                    </td>
+                    <td>{{item.materialChangeNum}}</td>
+                    <td>
+                        <el-switch v-model="item.addStatus" active-text="增加" inactive-text="减少" class="inline-block switchStyle"></el-switch>
+                        <el-input v-model="item.addValue" class="inline-block" style="width: 100px;" @blur="inputBlur" :row-id="item.id" edit-id="edit_addValue"></el-input>
+                    </td>
+                    <td>
+                        <el-input v-model="item.materialUnit" @blur="inputBlur" :row-id="item.id" edit-id="edit_materialUnit"></el-input>
+                    </td>
+                    <td>
+                        <el-select v-model="item.typeName" placeholder="请选择" @change="function(val){changeSelect(val, item.id)}" :row-id="item.id" edit-id="edit_typeName">
+                            <el-option
+                                v-for="item in options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <el-pagination
+            @current-change="handleCurrentChange"
+            class="pagination-table"
+            background
+            @size-change="handleSizeChange"
+            :page-sizes="[10, 20, 50, 100]"
+            :page-size="tablePage"
+            :current-page="pageNO"
+            layout="prev, pager, next, sizes, jumper"
+            :total="tableTotal">
+        </el-pagination>
+        <el-button type="primary" size="medium" @click="getData">获取数据</el-button>
+    </div>
+</body>
+<script type="text/javascript">
+var apihost = '';
+new Vue({
+    el: '#app',
+    data: {
+        title: '材料变更',
+        detail: [],
+        rootData: {
+            "msg": "查询成功！",
+            "code": 200,
+            "data": {
+                "changeOrderName": "2",
+                "addDataList": [{
+                    "materialName": "2",
+                    "materialBrand": "2",
+                    "materialModel": "2",
+                    "materialPrice": "2",
+                    "materialChangeNum": "2",
+                    "materialUnit": "2",
+                    "typeName": "2"
+                }],
+                "changeDataList": [
+                    {
+                        "materialName": "1",
+                        "materialBrand": "2",
+                        "materialModel": "2",
+                        "materialPrice": "2",
+                        "materialChangeNum": "2",
+                        "materialUnit": "2",
+                        "typeName": "2",
+                        "originalMaterialName": "2",
+                        "originalMaterialBrand": "2",
+                        "originalMaterialModel": "2",
+                        "originalMaterialPrice": "2",
+                        "originalMaterialChangeNum": "2",
+                        "originalMaterialUnit": "2",
+                        "originalTypeName": "2",
+                        "materialIsChanged": "2"
+                    }, {
+                        "materialName": "2",
+                        "materialBrand": "2",
+                        "materialModel": "2",
+                        "materialPrice": "2",
+                        "materialChangeNum": "2",
+                        "materialUnit": "2",
+                        "typeName": "2",
+                        "originalMaterialName": "2",
+                        "originalMaterialBrand": "2",
+                        "originalMaterialModel": "2",
+                        "originalMaterialPrice": "2",
+                        "originalMaterialChangeNum": "2",
+                        "originalMaterialUnit": "2",
+                        "originalTypeName": "2",
+                        "materialIsChanged": "2"
+                    }, {
+                        "materialName": "3",
+                        "materialBrand": "2",
+                        "materialModel": "2",
+                        "materialPrice": "2",
+                        "materialChangeNum": "2",
+                        "materialUnit": "2",
+                        "typeName": "2",
+                        "originalMaterialName": "2",
+                        "originalMaterialBrand": "2",
+                        "originalMaterialModel": "2",
+                        "originalMaterialPrice": "2",
+                        "originalMaterialChangeNum": "2",
+                        "originalMaterialUnit": "2",
+                        "originalTypeName": "2",
+                        "materialIsChanged": "2"
+                    }, {
+                        "materialName": "4",
+                        "materialBrand": "2",
+                        "materialModel": "2",
+                        "materialPrice": "2",
+                        "materialChangeNum": "2",
+                        "materialUnit": "2",
+                        "typeName": "2",
+                        "originalMaterialName": "2",
+                        "originalMaterialBrand": "2",
+                        "originalMaterialModel": "2",
+                        "originalMaterialPrice": "2",
+                        "originalMaterialChangeNum": "2",
+                        "originalMaterialUnit": "2",
+                        "originalTypeName": "2",
+                        "materialIsChanged": "2"
+                    }, {
+                        "materialName": "5",
+                        "materialBrand": "2",
+                        "materialModel": "2",
+                        "materialPrice": "2",
+                        "materialChangeNum": "2",
+                        "materialUnit": "2",
+                        "typeName": "2",
+                        "originalMaterialName": "2",
+                        "originalMaterialBrand": "2",
+                        "originalMaterialModel": "2",
+                        "originalMaterialPrice": "2",
+                        "originalMaterialChangeNum": "2",
+                        "originalMaterialUnit": "2",
+                        "originalTypeName": "2",
+                        "materialIsChanged": "2"
+                    }, {
+                        "materialName": "6",
+                        "materialBrand": "2",
+                        "materialModel": "2",
+                        "materialPrice": "2",
+                        "materialChangeNum": "2",
+                        "materialUnit": "2",
+                        "typeName": "2",
+                        "originalMaterialName": "2",
+                        "originalMaterialBrand": "2",
+                        "originalMaterialModel": "2",
+                        "originalMaterialPrice": "2",
+                        "originalMaterialChangeNum": "2",
+                        "originalMaterialUnit": "2",
+                        "originalTypeName": "2",
+                        "materialIsChanged": "2"
+                    }, {
+                        "materialName": "7",
+                        "materialBrand": "2",
+                        "materialModel": "2",
+                        "materialPrice": "2",
+                        "materialChangeNum": "2",
+                        "materialUnit": "2",
+                        "typeName": "2",
+                        "originalMaterialName": "2",
+                        "originalMaterialBrand": "2",
+                        "originalMaterialModel": "2",
+                        "originalMaterialPrice": "2",
+                        "originalMaterialChangeNum": "2",
+                        "originalMaterialUnit": "2",
+                        "originalTypeName": "2",
+                        "materialIsChanged": "2"
+                    }, {
+                        "materialName": "8",
+                        "materialBrand": "2",
+                        "materialModel": "2",
+                        "materialPrice": "2",
+                        "materialChangeNum": "2",
+                        "materialUnit": "2",
+                        "typeName": "2",
+                        "originalMaterialName": "2",
+                        "originalMaterialBrand": "2",
+                        "originalMaterialModel": "2",
+                        "originalMaterialPrice": "2",
+                        "originalMaterialChangeNum": "2",
+                        "originalMaterialUnit": "2",
+                        "originalTypeName": "2",
+                        "materialIsChanged": "2"
+                    }, {
+                        "materialName": "9",
+                        "materialBrand": "2",
+                        "materialModel": "2",
+                        "materialPrice": "2",
+                        "materialChangeNum": "2",
+                        "materialUnit": "2",
+                        "typeName": "2",
+                        "originalMaterialName": "2",
+                        "originalMaterialBrand": "2",
+                        "originalMaterialModel": "2",
+                        "originalMaterialPrice": "2",
+                        "originalMaterialChangeNum": "2",
+                        "originalMaterialUnit": "2",
+                        "originalTypeName": "2",
+                        "materialIsChanged": "2"
+                    }, {
+                        "materialName": "10",
+                        "materialBrand": "2",
+                        "materialModel": "2",
+                        "materialPrice": "2",
+                        "materialChangeNum": "2",
+                        "materialUnit": "2",
+                        "typeName": "2",
+                        "originalMaterialName": "2",
+                        "originalMaterialBrand": "2",
+                        "originalMaterialModel": "2",
+                        "originalMaterialPrice": "2",
+                        "originalMaterialChangeNum": "2",
+                        "originalMaterialUnit": "2",
+                        "originalTypeName": "2",
+                        "materialIsChanged": "2"
+                    }, {
+                        "materialName": "11",
+                        "materialBrand": "2",
+                        "materialModel": "2",
+                        "materialPrice": "2",
+                        "materialChangeNum": "2",
+                        "materialUnit": "2",
+                        "typeName": "2",
+                        "originalMaterialName": "2",
+                        "originalMaterialBrand": "2",
+                        "originalMaterialModel": "2",
+                        "originalMaterialPrice": "2",
+                        "originalMaterialChangeNum": "2",
+                        "originalMaterialUnit": "2",
+                        "originalTypeName": "2",
+                        "materialIsChanged": "2"
+                    }, {
+                        "materialName": "12",
+                        "materialBrand": "2",
+                        "materialModel": "2",
+                        "materialPrice": "2",
+                        "materialChangeNum": "2",
+                        "materialUnit": "2",
+                        "typeName": "2",
+                        "originalMaterialName": "2",
+                        "originalMaterialBrand": "2",
+                        "originalMaterialModel": "2",
+                        "originalMaterialPrice": "2",
+                        "originalMaterialChangeNum": "2",
+                        "originalMaterialUnit": "2",
+                        "originalTypeName": "2",
+                        "materialIsChanged": "2"
+                    }
+                ],
+                "contactChangeInfo": [{
+                    "userName": "2",
+                    "changeStatus": "2",
+                    "changeContent": "2",
+                    "addDateTime": "2"
+                }],
+                "changeLogList": [{
+                    "userName": "2",
+                    "addDateTime": "2",
+                    "auditorPerson": "2",
+                    "auditorDateTime": "2",
+                    "auditorResult": "2"
+                }],
+                "unAuditorReason": "2"
+            }
+        },
+        edited: [],
+        options: [
+            {
+                value: '1',
+                label: '钢筋'
+            }, {
+                value: '2',
+                label: '水泥'
+            }, {
+                value: '3',
+                label: '其它'
+            }
+        ],
+        tableTotal: 10,    // 总条数
+        tablePage: 10,     // 每页条数
+        pageNO: 1,         // 页码
+        search: ''
+    },
+    methods: {
+        getData() {
+            console.log(this.detail);
+            console.log(this.rootData.data.changeDataList);
+        },
+        // 解析变更材料数据，添加两个空字段，用以填充‘材料所需总量变更’
+        parseChangeDataList(data) {
+            var result = [];
+
+            if (data.length > 0) {
+                data.forEach(function (item, index) {
+                    var obj = {
+                        id: 'custom' + index,
+                        show: index < 10 ? true : false,
+                        addStatus: false,
+                        addValue: ''
+                    };
+                    var assignObj = Object.assign({}, item, obj);
+                    result.push(assignObj);
+                });
+                return result;
+            }
+            return result;
+        },
+        // 对比数据，有修改返回true，无修改或空返回false
+        dataComparison(rowId, editId, value) {
+            // 原始数据
+            var rootData = this.rootData.data.changeDataList;
+            // 索引号
+            var index = rowId.substr(6);
+            // 键名
+            var key = editId.substr(5);
+
+            if (value) {
+                return rootData[index][key] === value ? true : false;
+            } else {
+                this.detail[index][key] = rootData[index][key];
+                return true;
+            }
+        },
+        // input框状态(失焦后触发)
+        inputBlur(e) {
+            console.log(e);
+            var value = e.target.value;
+            // console.log(e.target.attributes);
+            var editId = e.target.attributes['edit-id'].nodeValue;
+            var rowId = e.target.attributes['row-id'].nodeValue;
+            // console.log(editId);
+            // console.log(rowId);
+            var status = this.dataComparison(rowId, editId, value);
+            if (!status) {
+                var node = document.querySelector('input[row-id=' + rowId + '][edit-id=' + editId + ']');
+                node.classList.add('is-warning');
+            }
+
+            // console.log(node);
+
+        },
+        /**
+         * changeSelect 下拉框状态（改变值后触发）
+         * @param  {string} value 当前值
+         * @param  {string} rowId 行号/ID
+         */
+        changeSelect(value, rowId) {
+            var status = this.dataComparison(rowId, 'edit_typeName', value);
+            if (!status) {
+                var node = document.querySelector('div[row-id=' + rowId + '][edit-id=edit_typeName] input');
+                node.classList.add('is-warning');
+            }
+        },
+        // 分页-切换页
+        handleCurrentChange(val) {
+            console.log(val);
+            this.pageNO = val;
+            this.dataShow();
+            // this.searchByPage();
+        },
+        // 分页-每页条数
+        handleSizeChange(val) {
+            this.tablePage = val;
+            this.dataShow();
+            // this.searchByPage();
+        },
+        // 自定义分页显示处理
+        dataShow() {
+            var data = this.detail;
+            var start = (this.pageNO - 1) * this.tablePage;
+            var end = start + this.tablePage;
+            for (var i = 0; i < data.length; i++) {
+                this.detail[i].show = false;
+                if ((i > start || i === start) && i < end) {
+                    this.detail[i].show = true;
+                }
+            }
+        },
+
+        // 变更列表
+        interfaceForMetrailDetail(param) {
+            var self = this;
+            $.ajax({
+                type: 'POST',
+                url: apihost + '/instantmessage/getdepartmentlist.rest',
+                data: param,
+                success: function (res) {
+                    if (parseInt(res.code) === 200) {
+                        self.detail = self.parseChangeDataList(res.data.changeDataList);
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        },
+
+    },
+    mounted() {
+        // this.interfaceForMetrailDetail();
+        // this.detail = this.parseChangeDataList(this.rootData.data.changeDataList);
+        // console.log(this.detail);
+        // this.tableTotal = this.detail.length;
+    }
+});
+</script>
+</html>
